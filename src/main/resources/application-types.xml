@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="temp" format="json">
+      <types:shape format="weave" example="examples/temp-2.json"><![CDATA[%dw 2.0
+
+type temp = {| Average: Number {"typeId": "double"} |} {"example": "{\\\"Average\\\":34.6}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#44ddd1b7-a91f-47a3-9881-3bcc29d6c4c1"/>
+  <types:enrichment select="#3fbbc060-63b7-43d9-b423-772233850a99">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="temp"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="temp"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

@@ -1,0 +1,13 @@
+[
+    {
+        "id": 3,
+        "date": "2019-01-01",
+        "temperature": 86.72,
+        "city": {
+            "id": 1,
+            "cityName": "Banglore",
+            "latitude": 12.9716,
+            "longitude": 77.5946
+          }
+    }
+]

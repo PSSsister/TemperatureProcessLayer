@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<configuration doc:name="Configuration" doc:id="3db4f7c1-5011-4678-bf68-039ac5d5bf01" defaultErrorHandler-ref="globalError_Handler" />
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="1d51dd53-f6b3-4622-8b90-a7e64bd53f8a" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<http:request-config name="Temperature_Request_configuration" doc:name="HTTP Request configuration" doc:id="272de839-0931-48cc-b13d-17ad204dafe8" >
+		<http:request-connection host="localhost" port="3014" />
+	</http:request-config>
+	<error-handler name="globalError_Handler" doc:id="95b622ea-16f7-4742-b324-c76b6e82d63f" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="79ebbef2-d4b7-45ba-aac5-a3136266974a" type="HTTP:NOT_FOUND">
+			<ee:transform doc:name="Transform Message" doc:id="27cb9473-f1f2-493c-b596-e384a0ee5480" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status": "failed",
+	"response" : error.errorMessage.payload
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="404" doc:name="Set Variable" doc:id="8100e27e-db65-4dd7-a4d2-fda893174733" variableName="httpStatus"/>
+		</on-error-propagate>
+	</error-handler>
+</mule>
